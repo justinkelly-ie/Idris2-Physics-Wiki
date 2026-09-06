@@ -1,0 +1,46 @@
+module Wiki.Generators
+
+import public QuickCheck
+import Math.ActionPrinciple
+import Math.FourGeometries
+import Core.BoxInt
+
+%default total
+
+public export
+Show Coord2D where
+  show (MkCoord2D x y) = "(" ++ show (unwrapBox x) ++ ", " ++ show (unwrapBox y) ++ ")"
+
+public export
+Arbitrary Coord2D where
+  arbitrary = do
+    x <- arbitrary {a = Integer}
+    y <- arbitrary {a = Integer}
+    pure (MkCoord2D (intToBoxInt x) (intToBoxInt y))
+
+  coarbitrary (MkCoord2D x y) gen =
+    coarbitrary (unwrapBox x) (coarbitrary (unwrapBox y) gen)
+
+public export
+natToGeometry : Nat -> FundamentalGeometry
+natToGeometry Z = EllipticGeom
+natToGeometry (S Z) = HyperbolicGeom
+natToGeometry (S (S Z)) = ParabolicGeom
+natToGeometry (S (S (S _))) = SubstrateGeom
+
+public export
+Arbitrary FundamentalGeometry where
+  arbitrary = map natToGeometry arbitrary
+
+  coarbitrary EllipticGeom gen   = coarbitrary (the Nat 0) gen
+  coarbitrary HyperbolicGeom gen = coarbitrary (the Nat 1) gen
+  coarbitrary ParabolicGeom gen  = coarbitrary (the Nat 2) gen
+  coarbitrary SubstrateGeom gen  = coarbitrary (the Nat 3) gen
+
+public export
+qc : (Arbitrary a, Show a, Testable prop) => (a -> prop) -> QCRes
+qc f = quickCheck (MkFn f)
+
+public export
+qc2 : (Arbitrary a, Show a, Arbitrary b, Show b, Testable prop) => (a -> b -> prop) -> QCRes
+qc2 f = quickCheck (MkFn (\x => MkFn (f x)))

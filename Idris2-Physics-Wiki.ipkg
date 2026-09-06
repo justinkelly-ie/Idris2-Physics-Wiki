@@ -1,0 +1,22 @@
+package Idris2-Physics-Wiki
+version = 0.1.0
+authors = "Justin Kelly"
+brief   = "Executable Verification Wiki & ScaleTransform Specs for Idris2-Physics"
+
+depends = base
+        , idris2-QuickCheck
+        , Idris2-Multiset-Core
+        , Idris2-Multiset-Transform
+        , Idris2-Multiset-Binary
+        , Idris2-Geometry
+        , Idris2-Physics
+
+sourcedir = "Library"
+
+modules = Wiki.Generators
+        , Wiki.PhysicsScaleTransformSpec
+        , Wiki.LawHomomorphismSpec
+        , Wiki.Main
+
+main = Wiki.Main
+executable = lphysics-wiki

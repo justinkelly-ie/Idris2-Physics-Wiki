@@ -1,4 +1,15 @@
-# Physics ScaleTransform & Metric Quadrance Homomorphism Verification
+# ⚖️ Physics ScaleTransform & Metric Quadrance Homomorphism Specification
+
+Documents and verifies metric quadrance linearity $Q(x, y) = x^2 + y^2$, action principle minimization ($\delta S = 0$), discrete Euler-Lagrange equivalence, and least-action geodesic optimality under Sandy Maguire's Homomorphic Observation framework using QuickCheck property testing.
+
+## 1. Mathematical Foundation & Action Principle Homomorphisms
+
+Physical trajectories satisfy action principle stationary point homomorphisms:
+
+1. **Non-Negative Metric Quadrance**: $Q(x, y) \ge 0$
+2. **Quadrance Metric Homomorphism**: $Q(x, y) \equiv x^2 + y^2$
+3. **Discrete Euler-Lagrange Equivalence**: $\delta S_{discrete} \equiv \delta S_{continuum}$
+4. **Geodesic Least Action Optimality**: $S_{\text{geodesic}} \le S_{\text{perturbed}}$
 
 ```idris
 module Wiki.PhysicsScaleTransformSpec
@@ -12,17 +23,15 @@ import Wiki.Generators
 import public QuickCheck
 
 %default total
-```
 
-## QuickCheck Verification Properties
-
-```idris
+||| 1. Non-Negative Metric Quadrance: Q(x, y) >= 0
 public export
 prop_coordQuadranceNonNegative : Coord2D -> Bool
 prop_coordQuadranceNonNegative c =
   let q : BoxInt = scaleTransform c
   in unwrapBox q >= 0
 
+||| 2. Metric Quadrance Homomorphism Formula: Q(x, y) == x^2 + y^2
 public export
 prop_coordQuadranceMatchesFormula : Coord2D -> Bool
 prop_coordQuadranceMatchesFormula coord@(MkCoord2D x y) =
@@ -30,14 +39,17 @@ prop_coordQuadranceMatchesFormula coord@(MkCoord2D x y) =
       expected = (x * x) + (y * y)
   in q == expected
 
+||| 3. Discrete Euler-Lagrange Geodesic Soundness
 public export
 prop_eulerLagrangeGeodesicValid : Bool
 prop_eulerLagrangeGeodesicValid = auditDiscreteEulerLagrangeEquivalenceProof
 
+||| 4. Least-Action Geodesic Optimality Soundness
 public export
 prop_leastActionGeodesicValid : Bool
 prop_leastActionGeodesicValid = auditGeodesicLeastActionOptimalityProof
 
+||| QuickCheck Execution Runner
 public export
 auditPhysicsScaleTransformSpecProof : IO Bool
 auditPhysicsScaleTransformSpecProof = do

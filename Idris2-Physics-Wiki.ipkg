@@ -19,4 +19,4 @@ modules = Wiki.Generators
         , Wiki.Main
 
 main = Wiki.Main
-executable = lphysics-wiki
+executable = physics-wiki

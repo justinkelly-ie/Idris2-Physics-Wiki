@@ -20,7 +20,7 @@
 - **Verification:** Proof witnesses verifying preservation of pure states, parallel execution, and interaction force bounds.
 
 ### 3. `Library/Wiki/Main.idr`
-- **Verification Runner:** Literate Idris 2 test runner executing compile-time `%macro` reflection proofs and QuickCheck property test suites for Layer 3b/6 (`lphysics-wiki`).
+- **Verification Runner:** Literate Idris 2 test runner executing compile-time `%macro` reflection proofs and QuickCheck property test suites for Layer 3b/6 (`physics-wiki`).
 
 ---
 
@@ -30,7 +30,7 @@ To compile the literate verification suite and execute the test runner binary:
 
 ```bash
 idris2 --build Idris2-Physics-Wiki.ipkg
-./build/exec/lphysics-wiki
+./build/exec/physics-wiki
 ```
 
 ---

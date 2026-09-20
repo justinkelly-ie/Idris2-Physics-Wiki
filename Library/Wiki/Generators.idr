@@ -1,9 +1,8 @@
 module Wiki.Generators
 
 import public QuickCheck
-import Math.ActionPrinciple
-import Math.FourGeometries
-import Core.BoxInt
+import Core
+import Physics
 
 %default total
 

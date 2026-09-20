@@ -14,11 +14,9 @@ Physical trajectories satisfy action principle stationary point homomorphisms:
 ```idris
 module Wiki.PhysicsScaleTransformSpec
 
-import Core.BoxInt
-import Core.ScaleTransform
-import Math.ActionPrinciple
-import Math.FourGeometries
-import Math.PhysicsScaleTransforms
+import Core
+import Transform
+import Physics
 import Wiki.Generators
 import public QuickCheck
 
@@ -28,14 +26,14 @@ import public QuickCheck
 public export
 prop_coordQuadranceNonNegative : Coord2D -> Bool
 prop_coordQuadranceNonNegative c =
-  let q : Core.BoxInt.BoxInt = scaleTransform c
-  in Core.BoxInt.unwrapBox q >= 0
+  let q : BoxInt = scaleTransform c
+  in unwrapBox q >= 0
 
 ||| 2. Metric Quadrance Homomorphism Formula: Q(x, y) == x^2 + y^2
 public export
 prop_coordQuadranceMatchesFormula : Coord2D -> Bool
 prop_coordQuadranceMatchesFormula coord@(MkCoord2D x y) =
-  let q : Core.BoxInt.BoxInt = scaleTransform coord
+  let q : BoxInt = scaleTransform coord
       expected = (x * x) + (y * y)
   in q == expected
 

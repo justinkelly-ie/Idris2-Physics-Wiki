@@ -31,16 +31,11 @@ Physical dynamics in Layer 3 form structure-preserving functors $F : \mathbf{Sta
 ```idris
 module Wiki.LawHomomorphismSpec
 
-import Core.BoxInt
-import Core.ScaleTransform
-import Math.ActionPrinciple
-import Math.FourGeometries
-import Math.PhysicsScaleTransforms
-import Math.LawFunctor
-import Math.ApplicativeHomomorphism
+import Core
+import Transform
+import Physics
 import Wiki.Generators
 import public QuickCheck
-import Math.Multiset
 import Language.Reflection
 
 %default total
@@ -63,14 +58,14 @@ staticProofApplicativeHomomorphismComposed = auditInvariant (prop_purePreservedO
 public export
 prop_lawFunctorIdentityOnMultiset : List (Integer, Integer) -> Bool
 prop_lawFunctorIdentityOnMultiset pairs =
-  let ms = Math.Multiset.fromList (map (\(k, v) => (k, Core.BoxInt.intToBoxInt v)) pairs)
+  let ms = Math.Multiset.fromList (map (\(k, v) => (k, intToBoxInt v)) pairs)
   in prop_functorIdentity ms
 
 ||| 2. Law Functor Composition on Multiset State Spaces
 public export
 prop_lawFunctorCompositionOnMultiset : List (Integer, Integer) -> Bool
 prop_lawFunctorCompositionOnMultiset pairs =
-  let ms = Math.Multiset.fromList (map (\(k, v) => (k, Core.BoxInt.intToBoxInt v)) pairs)
+  let ms = Math.Multiset.fromList (map (\(k, v) => (k, intToBoxInt v)) pairs)
       f = (+ 1)
       g = (* 2)
   in prop_functorComposition g f ms

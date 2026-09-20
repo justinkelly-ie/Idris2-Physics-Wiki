@@ -1,8 +1,8 @@
 module Wiki.Main
 
 import System
-import Math.ActionPrinciple
-import Math.PhysicsMonad
+import Core
+import Physics
 import Wiki.PhysicsScaleTransformSpec
 import Wiki.LawHomomorphismSpec
 import Language.Reflection

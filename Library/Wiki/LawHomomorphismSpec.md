@@ -2,7 +2,20 @@
 
 Documents and verifies discrete physical law functors ($F$), applicative naturality homomorphisms ($\eta : F \Rightarrow G$), gauge-spinor shear coupling, and 3D toroidal astrodynamics precession under Sandy Maguire's Homomorphic Observation framework using QuickCheck property testing.
 
-## 1. Mathematical Foundation & Law Homomorphisms
+---
+
+## 1. Physical Law Functor $\leftrightarrow$ Multiset Applicative Homomorphism Duality Dictionary
+
+| Physical Functor Construct | Category-Theoretic Dual | Native Multiset Implementation |
+| :--- | :--- | :--- |
+| **Physical Law Functor $F$** | State Functor $F : \mathbf{State} \to \mathbf{State}$ | `prop_lawFunctorIdentityOnMultiset : List (Integer, Integer) -> Bool` |
+| **Physical Law Composition $F(g \circ f)$** | Functor Composition $F(g) \circ F(f)$ | `prop_lawFunctorCompositionOnMultiset : List (Integer, Integer) -> Bool` |
+| **Applicative State Injection $\eta$** | Natural Transformation $\eta(\text{pure}(x))$ | `prop_applicativeHomomorphismPureMaybeMultiset : Integer -> Bool` |
+| **Composed State Morphism** | Monadic Functor Pipeline | `prop_purePreservedOnComposedIdMaybeMultiset : Integer -> Bool` |
+
+---
+
+## 2. Mathematical Foundation & Law Homomorphisms
 
 Physical dynamics in Layer 3 form structure-preserving functors $F : \mathbf{State} \to \mathbf{State}$ and natural transformations $\eta : F \Rightarrow G$:
 
@@ -10,6 +23,10 @@ Physical dynamics in Layer 3 form structure-preserving functors $F : \mathbf{Sta
 2. **Law Functor Composition**: $F(g \circ f) \equiv F(g) \circ F(f)$
 3. **Applicative Naturality Homomorphism**: $\eta(\text{pure}(x)) \equiv \text{pure}(\eta(x))$
 4. **Gauge-Spinor Shear Coupling Invariance**: $\text{shear}(S) \cdot \text{coupling}(G) \equiv \text{invariant}$
+
+---
+
+## 3. Formal Specification & Verification Suite
 
 ```idris
 module Wiki.LawHomomorphismSpec
@@ -46,14 +63,14 @@ staticProofApplicativeHomomorphismComposed = auditInvariant (prop_purePreservedO
 public export
 prop_lawFunctorIdentityOnMultiset : List (Integer, Integer) -> Bool
 prop_lawFunctorIdentityOnMultiset pairs =
-  let ms = Math.Multiset.fromList (map (\(k, v) => (k, intToBoxInt v)) pairs)
+  let ms = Math.Multiset.fromList (map (\(k, v) => (k, Core.BoxInt.intToBoxInt v)) pairs)
   in prop_functorIdentity ms
 
 ||| 2. Law Functor Composition on Multiset State Spaces
 public export
 prop_lawFunctorCompositionOnMultiset : List (Integer, Integer) -> Bool
 prop_lawFunctorCompositionOnMultiset pairs =
-  let ms = Math.Multiset.fromList (map (\(k, v) => (k, intToBoxInt v)) pairs)
+  let ms = Math.Multiset.fromList (map (\(k, v) => (k, Core.BoxInt.intToBoxInt v)) pairs)
       f = (+ 1)
       g = (* 2)
   in prop_functorComposition g f ms

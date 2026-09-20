@@ -35,11 +35,3 @@ Arbitrary FundamentalGeometry where
   coarbitrary HyperbolicGeom gen = coarbitrary (the Nat 1) gen
   coarbitrary ParabolicGeom gen  = coarbitrary (the Nat 2) gen
   coarbitrary SubstrateGeom gen  = coarbitrary (the Nat 3) gen
-
-public export
-qc : (Arbitrary a, Show a, Testable prop) => (a -> prop) -> QCRes
-qc f = quickCheck (MkFn f)
-
-public export
-qc2 : (Arbitrary a, Show a, Arbitrary b, Show b, Testable prop) => (a -> b -> prop) -> QCRes
-qc2 f = quickCheck (MkFn (\x => MkFn (f x)))
